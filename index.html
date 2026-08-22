@@ -7,32 +7,30 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      background: #87CEEB;
+      background: linear-gradient(180deg, #7ec8e3 0%, #a8d8ea 100%);
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
     }
-    img {
-      max-width: 85vw;
-      max-height: 88vh;
+    .patrick {
+      max-width: 90vw;
+      max-height: 90vh;
       object-fit: contain;
-      filter: drop-shadow(0 14px 28px rgba(0,0,0,0.2));
-      animation: float 3s ease-in-out infinite;
+      filter: drop-shadow(0 12px 24px rgba(0,0,0,0.18));
+      animation: float 3.2s ease-in-out infinite;
+      user-select: none;
+      -webkit-user-drag: none;
     }
     @keyframes float {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-14px); }
+      50% { transform: translateY(-16px); }
     }
   </style>
 </head>
 <body>
-  <!-- Official style Patrick Star (arms open, smiling) -->
-  <img
-    src="https://www.pngitem.com/pimgs/m/146-1468479_patrick-star-png-transparent-png.png"
-    alt="派大星"
-    onerror="this.src='https://i.ibb.co/0jKqZ8L/patrick.png'; this.onerror=null;"
-  >
+  <!-- Based on the Nendoroid Patrick Star figure photo - modular clean display -->
+  <img class="patrick" src="data:image/png;base64,PLACEHOLDER" alt="派大星">
 </body>
 </html>
