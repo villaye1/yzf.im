@@ -8,261 +8,30 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       background: #87CEEB;
-      overflow: hidden;
       min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
     }
-    canvas { display: block; }
+    img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+      filter: drop-shadow(0 12px 24px rgba(0,0,0,0.18));
+      animation: float 2.8s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
   </style>
 </head>
 <body>
-  <script type="importmap">
-  {
-    "imports": {
-      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
-    }
-  }
-  </script>
-  <script type="module">
-    import * as THREE from 'three';
-    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x87CEEB);
-
-    const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 100);
-    camera.position.set(0, 2.2, 11);
-
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.shadowMap.enabled = true;
-    document.body.appendChild(renderer.domElement);
-
-    const controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.08;
-    controls.target.set(0, 2.0, 0);
-    controls.minDistance = 6;
-    controls.maxDistance = 18;
-    controls.enablePan = false;
-
-    scene.add(new THREE.AmbientLight(0xffffff, 0.75));
-    const dir = new THREE.DirectionalLight(0xffffff, 0.7);
-    dir.position.set(4, 10, 6);
-    dir.castShadow = true;
-    scene.add(dir);
-
-    // Soft ground
-    const ground = new THREE.Mesh(
-      new THREE.CircleGeometry(7, 48),
-      new THREE.MeshLambertMaterial({ color: 0x7CB342 })
-    );
-    ground.rotation.x = -Math.PI / 2;
-    ground.receiveShadow = true;
-    scene.add(ground);
-
-    // ===== Official-style Patrick (continuous starfish) =====
-    const patrick = new THREE.Group();
-
-    const PINK = 0xFF8C9A;        // closer to official coral pink
-    const PINK_DARK = 0xE87A88;
-    const GREEN = 0xA8E000;      // lime green pants
-    const PURPLE = 0x9B4DCA;
-    const WHITE = 0xFFFFFF;
-    const BLACK = 0x1A1A1A;
-
-    const pinkMat = new THREE.MeshLambertMaterial({ color: PINK });
-    const greenMat = new THREE.MeshLambertMaterial({ color: GREEN });
-    const purpleMat = new THREE.MeshLambertMaterial({ color: PURPLE });
-    const whiteMat = new THREE.MeshLambertMaterial({ color: WHITE });
-    const blackMat = new THREE.MeshLambertMaterial({ color: BLACK });
-
-    // Main torso (rounded star body)
-    const torso = new THREE.Mesh(
-      new THREE.SphereGeometry(1.85, 32, 32),
-      pinkMat
-    );
-    torso.scale.set(1.25, 1.15, 0.95);
-    torso.position.y = 2.1;
-    torso.castShadow = true;
-    patrick.add(torso);
-
-    // Pointed head (the top star point) - elongated upward
-    const head = new THREE.Mesh(
-      new THREE.SphereGeometry(1.1, 28, 28),
-      pinkMat
-    );
-    head.scale.set(0.85, 1.55, 0.85);
-    head.position.y = 4.15;
-    head.castShadow = true;
-    patrick.add(head);
-
-    // Tip of head (sharper point)
-    const tip = new THREE.Mesh(
-      new THREE.SphereGeometry(0.55, 20, 20),
-      pinkMat
-    );
-    tip.scale.set(0.7, 1.3, 0.7);
-    tip.position.y = 5.55;
-    patrick.add(tip);
-
-    // Eyes (large, close together, classic look)
-    const eyeGeo = new THREE.SphereGeometry(0.38, 20, 20);
-    const eyeL = new THREE.Mesh(eyeGeo, whiteMat);
-    eyeL.position.set(-0.38, 4.35, 0.95);
-    patrick.add(eyeL);
-    const eyeR = new THREE.Mesh(eyeGeo, whiteMat);
-    eyeR.position.set(0.38, 4.35, 0.95);
-    patrick.add(eyeR);
-
-    // Pupils
-    const pupilGeo = new THREE.SphereGeometry(0.18, 14, 14);
-    const pupilL = new THREE.Mesh(pupilGeo, blackMat);
-    pupilL.position.set(-0.38, 4.35, 1.22);
-    patrick.add(pupilL);
-    const pupilR = new THREE.Mesh(pupilGeo, blackMat);
-    pupilR.position.set(0.38, 4.35, 1.22);
-    patrick.add(pupilR);
-
-    // Thick black eyebrows (classic short dashes)
-    const browGeo = new THREE.BoxGeometry(0.42, 0.1, 0.08);
-    const browL = new THREE.Mesh(browGeo, blackMat);
-    browL.position.set(-0.4, 4.85, 1.05);
-    browL.rotation.z = 0.12;
-    patrick.add(browL);
-    const browR = new THREE.Mesh(browGeo, blackMat);
-    browR.position.set(0.4, 4.85, 1.05);
-    browR.rotation.z = -0.12;
-    patrick.add(browR);
-
-    // Wide open smile with tongue
-    const mouthOuter = new THREE.Mesh(
-      new THREE.SphereGeometry(0.55, 16, 12, 0, Math.PI * 2, 0, Math.PI * 0.55),
-      blackMat
-    );
-    mouthOuter.position.set(0, 3.85, 1.05);
-    mouthOuter.rotation.x = 0.15;
-    patrick.add(mouthOuter);
-
-    const tongue = new THREE.Mesh(
-      new THREE.SphereGeometry(0.28, 12, 10),
-      new THREE.MeshLambertMaterial({ color: 0xFF6B8A })
-    );
-    tongue.scale.set(1.1, 0.55, 0.7);
-    tongue.position.set(0, 3.65, 1.25);
-    patrick.add(tongue);
-
-    // Left arm (upper star point - raised for waving)
-    const armL = new THREE.Mesh(
-      new THREE.SphereGeometry(0.7, 20, 20),
-      pinkMat
-    );
-    armL.scale.set(0.75, 1.9, 0.75);
-    armL.position.set(-2.15, 3.4, 0.15);
-    armL.rotation.z = 0.85;
-    armL.castShadow = true;
-    patrick.add(armL);
-
-    // Right arm (upper star point)
-    const armR = new THREE.Mesh(
-      new THREE.SphereGeometry(0.7, 20, 20),
-      pinkMat
-    );
-    armR.scale.set(0.75, 1.9, 0.75);
-    armR.position.set(2.15, 3.4, 0.15);
-    armR.rotation.z = -0.85;
-    armR.castShadow = true;
-    patrick.add(armR);
-
-    // Left leg (lower star point)
-    const legL = new THREE.Mesh(
-      new THREE.SphereGeometry(0.65, 18, 18),
-      pinkMat
-    );
-    legL.scale.set(0.7, 1.6, 0.7);
-    legL.position.set(-0.95, 0.55, 0.1);
-    legL.rotation.z = 0.25;
-    legL.castShadow = true;
-    patrick.add(legL);
-
-    // Right leg
-    const legR = new THREE.Mesh(
-      new THREE.SphereGeometry(0.65, 18, 18),
-      pinkMat
-    );
-    legR.scale.set(0.7, 1.6, 0.7);
-    legR.position.set(0.95, 0.55, 0.1);
-    legR.rotation.z = -0.25;
-    legR.castShadow = true;
-    patrick.add(legR);
-
-    // Green shorts (wrapped around lower torso)
-    const pants = new THREE.Mesh(
-      new THREE.CylinderGeometry(1.7, 1.85, 1.15, 28),
-      greenMat
-    );
-    pants.position.y = 1.55;
-    pants.castShadow = true;
-    patrick.add(pants);
-
-    // Purple flower spots on pants
-    const spot1 = new THREE.Mesh(new THREE.SphereGeometry(0.45, 12, 12), purpleMat);
-    spot1.position.set(-0.85, 1.55, 1.55);
-    patrick.add(spot1);
-    const spot2 = new THREE.Mesh(new THREE.SphereGeometry(0.38, 12, 12), purpleMat);
-    spot2.position.set(0.7, 1.4, 1.6);
-    patrick.add(spot2);
-    const spot3 = new THREE.Mesh(new THREE.SphereGeometry(0.3, 10, 10), purpleMat);
-    spot3.position.set(-0.2, 1.7, -1.55);
-    patrick.add(spot3);
-
-    // Belly button
-    const navel = new THREE.Mesh(
-      new THREE.SphereGeometry(0.12, 10, 10),
-      new THREE.MeshLambertMaterial({ color: PINK_DARK })
-    );
-    navel.position.set(0, 2.35, 1.7);
-    patrick.add(navel);
-
-    // Small freckles / dots on body (official detail)
-    const dotMat = new THREE.MeshLambertMaterial({ color: 0xE07080 });
-    [[-0.9, 3.0, 1.3], [0.7, 2.8, 1.4], [-0.5, 4.8, 0.7], [0.4, 5.1, 0.6]].forEach(([x, y, z]) => {
-      const d = new THREE.Mesh(new THREE.SphereGeometry(0.07, 8, 8), dotMat);
-      d.position.set(x, y, z);
-      patrick.add(d);
-    });
-
-    scene.add(patrick);
-
-    // Wave animation (left arm)
-    let t = 0;
-    function animate() {
-      requestAnimationFrame(animate);
-      t += 0.045;
-
-      // Left arm waving
-      armL.rotation.z = 0.85 + Math.sin(t) * 0.55;
-      armL.position.y = 3.4 + Math.sin(t) * 0.25;
-
-      // Slight body bob
-      patrick.position.y = Math.sin(t * 0.6) * 0.05;
-
-      // Gentle eye blink every few seconds
-      const blink = Math.abs(Math.sin(t * 0.35)) < 0.08 ? 0.15 : 1;
-      eyeL.scale.y = blink;
-      eyeR.scale.y = blink;
-
-      controls.update();
-      renderer.render(scene, camera);
-    }
-    animate();
-
-    window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-  </script>
+  <img
+    src="https://upload.wikimedia.org/wikipedia/en/thumb/3/3b/SpongeBob_SquarePants_character.svg/1200px-SpongeBob_SquarePants_character.svg.png"
+    alt="Patrick Star"
+    onerror="this.src='https://static.wikia.nocookie.net/spongebob/images/4/4c/Patrick_Star.svg/revision/latest?cb=20201231223425'; this.onerror=null;"
+  >
 </body>
 </html>
