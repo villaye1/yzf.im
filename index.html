@@ -3,103 +3,177 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>YZF.IM — Blog</title>
-  <meta name="description" content="Personal blog of YZF">
+  <title>YZF.IM</title>
+  <meta name="description" content="YZF 的个人导航页">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>Y</text></svg>">
   <style>
     :root {
-      --bg: #0f0f0f;
-      --fg: #e8e8e8;
-      --muted: #888;
+      --bg: #0c0c0c;
+      --card: #161616;
+      --card-hover: #1f1f1f;
+      --text: #f0f0f0;
+      --muted: #8a8a8a;
       --accent: #3b82f6;
-      --card: #1a1a1a;
+      --border: #262626;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
       background: var(--bg);
-      color: var(--fg);
-      line-height: 1.7;
+      color: var(--text);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.25rem;
+      line-height: 1.5;
     }
-    header {
-      padding: 2rem 1.5rem;
-      border-bottom: 1px solid #222;
+
+    .container {
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .profile {
       text-align: center;
+      margin-bottom: 2.5rem;
     }
-    header h1 {
-      font-size: 1.75rem;
+
+    .avatar {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
       font-weight: 600;
+      color: white;
+      margin: 0 auto 1.25rem;
       letter-spacing: -0.02em;
     }
-    header h1 a { color: inherit; text-decoration: none; }
-    header p { color: var(--muted); margin-top: 0.35rem; font-size: 0.95rem; }
-    main {
-      flex: 1;
-      max-width: 680px;
-      width: 100%;
-      margin: 0 auto;
-      padding: 3rem 1.5rem;
+
+    .name {
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.35rem;
     }
-    .intro {
-      margin-bottom: 3rem;
+
+    .bio {
+      color: var(--muted);
+      font-size: 0.95rem;
     }
-    .intro h2 {
-      font-size: 1.25rem;
-      margin-bottom: 0.75rem;
+
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
     }
-    .intro p { color: var(--muted); }
-    .posts { list-style: none; }
-    .posts li {
-      padding: 1.25rem 0;
-      border-bottom: 1px solid #222;
-    }
-    .posts li:last-child { border-bottom: none; }
-    .posts a {
-      color: var(--fg);
+
+    .link {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      padding: 0.95rem 1.15rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
       text-decoration: none;
-      font-size: 1.1rem;
+      font-size: 0.95rem;
       font-weight: 500;
+      transition: all 0.2s ease;
     }
-    .posts a:hover { color: var(--accent); }
-    .posts time {
-      display: block;
-      font-size: 0.85rem;
-      color: var(--muted);
-      margin-top: 0.25rem;
+
+    .link:hover {
+      background: var(--card-hover);
+      border-color: #333;
+      transform: translateY(-1px);
     }
-    footer {
+
+    .link .icon {
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      opacity: 0.9;
+    }
+
+    .link .icon svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    .footer {
+      margin-top: 3rem;
       text-align: center;
-      padding: 2rem 1.5rem;
       color: var(--muted);
-      font-size: 0.85rem;
-      border-top: 1px solid #222;
+      font-size: 0.8rem;
+    }
+
+    .footer a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      color: var(--text);
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1><a href="/">YZF.IM</a></h1>
-    <p>Personal Blog</p>
-  </header>
-  <main>
-    <section class="intro">
-      <h2>欢迎</h2>
-      <p>这是一个基于 GitHub Pages 的个人博客站点，域名 yzf.im。后续可在此发布文章与笔记。</p>
-    </section>
-    <section>
-      <h2 style="font-size:1.1rem;margin-bottom:1rem;color:var(--muted);">最新文章</h2>
-      <ul class="posts">
-        <li>
-          <a href="#">Hello World</a>
-          <time datetime="2026-08-22">2026-08-22</time>
-        </li>
-      </ul>
-    </section>
-  </main>
-  <footer>
-    &copy; 2026 YZF.IM · Powered by GitHub Pages
-  </footer>
+  <div class="container">
+    <div class="profile">
+      <div class="avatar">Y</div>
+      <h1 class="name">YZF</h1>
+      <p class="bio">个人导航页</p>
+    </div>
+
+    <div class="links">
+      <a class="link" href="https://github.com/villaye1" target="_blank" rel="noopener">
+        <span class="icon">
+          <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+        </span>
+        GitHub
+      </a>
+
+      <a class="link" href="https://x.com/villaye1" target="_blank" rel="noopener">
+        <span class="icon">
+          <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </span>
+        X (Twitter)
+      </a>
+
+      <a class="link" href="#" onclick="return false;">
+        <span class="icon">
+          <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        </span>
+        邮箱（待添加）
+      </a>
+
+      <a class="link" href="#" onclick="return false;">
+        <span class="icon">
+          <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+        </span>
+        博客（待添加）
+      </a>
+    </div>
+
+    <div class="footer">
+      <p>yzf.im · <a href="https://github.com/villaye1/yzf.im" target="_blank" rel="noopener">Source</a></p>
+    </div>
+  </div>
 </body>
 </html>
