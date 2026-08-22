@@ -15,195 +15,192 @@
       overflow: hidden;
     }
 
-    /* 五角星造型的派大星（基于手办照片） */
+    /* 真正的海星形状派大星 */
     .patrick {
       position: relative;
-      width: 260px;
-      height: 340px;
+      width: 280px;
+      height: 360px;
       animation: float 3.2s ease-in-out infinite;
-      filter: drop-shadow(0 14px 22px rgba(0,0,0,0.18));
+      filter: drop-shadow(0 16px 24px rgba(0,0,0,0.2));
     }
     @keyframes float {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-14px); }
+      50% { transform: translateY(-16px); }
     }
 
-    /* 中心身体（五角星的核心） */
-    .body {
+    /* 海星中心 */
+    .core {
       position: absolute;
       left: 50%;
-      top: 90px;
+      top: 100px;
       transform: translateX(-50%);
-      width: 130px;
-      height: 150px;
+      width: 120px;
+      height: 130px;
       background: #f9a8b8;
-      border-radius: 50% 50% 45% 45%;
+      border-radius: 50%;
       z-index: 2;
     }
 
-    /* 顶部尖角（头） */
-    .point.top {
+    /* 五个尖角 - 海星形状 */
+    .arm {
       position: absolute;
+      background: #f9a8b8;
+      z-index: 1;
+    }
+
+    /* 顶部尖角（头） */
+    .arm.top {
       left: 50%;
       top: 0;
       transform: translateX(-50%);
-      width: 52px;
-      height: 110px;
-      background: #f9a8b8;
-      border-radius: 26px 26px 10px 10px;
+      width: 46px;
+      height: 125px;
+      border-radius: 23px 23px 8px 8px;
       z-index: 3;
     }
 
-    /* 左上角（左臂） */
-    .point.upper-left {
-      position: absolute;
-      left: 8px;
-      top: 70px;
-      width: 48px;
-      height: 110px;
-      background: #f9a8b8;
-      border-radius: 24px;
-      transform: rotate(-42deg);
-      transform-origin: 80% 15%;
-      z-index: 1;
+    /* 左上尖角 */
+    .arm.upper-left {
+      left: 5px;
+      top: 55px;
+      width: 50px;
+      height: 120px;
+      border-radius: 25px;
+      transform: rotate(-48deg);
+      transform-origin: 85% 10%;
     }
-    .point.upper-left::after {
-      content: '';
-      position: absolute;
-      bottom: -6px;
-      left: 6px;
-      width: 36px;
-      height: 30px;
-      background: #f9a8b8;
-      border-radius: 50%;
-    }
-
-    /* 右上角（右臂） */
-    .point.upper-right {
-      position: absolute;
-      right: 8px;
-      top: 70px;
-      width: 48px;
-      height: 110px;
-      background: #f9a8b8;
-      border-radius: 24px;
-      transform: rotate(42deg);
-      transform-origin: 20% 15%;
-      z-index: 1;
-    }
-    .point.upper-right::after {
-      content: '';
-      position: absolute;
-      bottom: -6px;
-      right: 6px;
-      width: 36px;
-      height: 30px;
-      background: #f9a8b8;
-      border-radius: 50%;
-    }
-
-    /* 左下角（左腿） */
-    .point.lower-left {
-      position: absolute;
-      left: 48px;
-      bottom: 8px;
-      width: 40px;
-      height: 95px;
-      background: #f9a8b8;
-      border-radius: 20px 20px 18px 18px;
-      transform: rotate(18deg);
-      z-index: 1;
-    }
-    .point.lower-left::after {
+    .arm.upper-left::after {
       content: '';
       position: absolute;
       bottom: -8px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 32px;
-      height: 16px;
+      left: 7px;
+      width: 36px;
+      height: 32px;
       background: #f9a8b8;
       border-radius: 50%;
     }
 
-    /* 右下角（右腿） */
-    .point.lower-right {
-      position: absolute;
-      right: 48px;
-      bottom: 8px;
-      width: 40px;
-      height: 95px;
-      background: #f9a8b8;
-      border-radius: 20px 20px 18px 18px;
-      transform: rotate(-18deg);
-      z-index: 1;
+    /* 右上尖角 */
+    .arm.upper-right {
+      right: 5px;
+      top: 55px;
+      width: 50px;
+      height: 120px;
+      border-radius: 25px;
+      transform: rotate(48deg);
+      transform-origin: 15% 10%;
     }
-    .point.lower-right::after {
+    .arm.upper-right::after {
       content: '';
       position: absolute;
       bottom: -8px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 32px;
-      height: 16px;
+      right: 7px;
+      width: 36px;
+      height: 32px;
       background: #f9a8b8;
       border-radius: 50%;
     }
 
-    /* 眼睛 */
-    .eyes {
+    /* 左下尖角 */
+    .arm.lower-left {
+      left: 42px;
+      bottom: 5px;
+      width: 44px;
+      height: 110px;
+      border-radius: 22px 22px 20px 20px;
+      transform: rotate(22deg);
+    }
+    .arm.lower-left::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 34px;
+      height: 18px;
+      background: #f9a8b8;
+      border-radius: 50%;
+    }
+
+    /* 右下尖角 */
+    .arm.lower-right {
+      right: 42px;
+      bottom: 5px;
+      width: 44px;
+      height: 110px;
+      border-radius: 22px 22px 20px 20px;
+      transform: rotate(-22deg);
+    }
+    .arm.lower-right::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 34px;
+      height: 18px;
+      background: #f9a8b8;
+      border-radius: 50%;
+    }
+
+    /* 脸部 */
+    .face {
       position: absolute;
       left: 50%;
-      top: 115px;
+      top: 95px;
       transform: translateX(-50%);
-      width: 92px;
-      height: 48px;
+      width: 100px;
+      height: 110px;
       z-index: 5;
-      display: flex;
-      justify-content: space-between;
-    }
-    .eye {
-      width: 40px;
-      height: 44px;
-      background: #fff;
-      border-radius: 50%;
-      position: relative;
-      border: 2.5px solid #222;
-    }
-    .eye::after {
-      content: '';
-      position: absolute;
-      width: 15px;
-      height: 17px;
-      background: #222;
-      border-radius: 50%;
-      top: 13px;
-      left: 12px;
     }
 
-    /* 眉毛 */
     .brow {
       position: absolute;
       width: 20px;
       height: 5px;
       background: #333;
       border-radius: 3px;
-      z-index: 6;
     }
-    .brow.left { left: 72px; top: 98px; transform: rotate(-8deg); }
-    .brow.right { right: 72px; top: 98px; transform: rotate(8deg); }
+    .brow.left { left: 18px; top: 8px; transform: rotate(-10deg); }
+    .brow.right { right: 18px; top: 8px; transform: rotate(10deg); }
 
-    /* 嘴巴（张嘴笑） */
+    .eyes {
+      position: absolute;
+      left: 50%;
+      top: 22px;
+      transform: translateX(-50%);
+      width: 88px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .eye {
+      width: 38px;
+      height: 42px;
+      background: #fff;
+      border: 2.5px solid #222;
+      border-radius: 50%;
+      position: relative;
+    }
+    .eye::after {
+      content: '';
+      position: absolute;
+      width: 14px;
+      height: 16px;
+      background: #222;
+      border-radius: 50%;
+      top: 12px;
+      left: 11px;
+    }
+
     .mouth {
       position: absolute;
       left: 50%;
-      top: 170px;
+      top: 72px;
       transform: translateX(-50%);
-      width: 60px;
-      height: 40px;
+      width: 56px;
+      height: 36px;
       background: #222;
-      border-radius: 0 0 32px 32px;
-      z-index: 5;
+      border-radius: 0 0 30px 30px;
       overflow: hidden;
     }
     .mouth::before {
@@ -212,8 +209,8 @@
       bottom: 0;
       left: 50%;
       transform: translateX(-50%);
-      width: 38px;
-      height: 17px;
+      width: 34px;
+      height: 15px;
       background: #f26a8d;
       border-radius: 50% 50% 0 0;
     }
@@ -221,9 +218,9 @@
       content: '';
       position: absolute;
       top: 2px;
-      left: 9px;
-      width: 42px;
-      height: 8px;
+      left: 8px;
+      width: 40px;
+      height: 7px;
       background: #fff;
       border-radius: 0 0 4px 4px;
     }
@@ -232,9 +229,9 @@
     .belly {
       position: absolute;
       left: 50%;
-      top: 220px;
+      top: 225px;
       transform: translateX(-50%);
-      width: 14px;
+      width: 13px;
       height: 10px;
       background: #e88a9a;
       border-radius: 50%;
@@ -245,42 +242,40 @@
     .pants {
       position: absolute;
       left: 50%;
-      top: 240px;
+      top: 245px;
       transform: translateX(-50%);
-      width: 120px;
-      height: 52px;
+      width: 115px;
+      height: 50px;
       background: #b8e05a;
-      border-radius: 8px 8px 18px 18px;
+      border-radius: 6px 6px 16px 16px;
       z-index: 3;
     }
     .flower {
       position: absolute;
-      left: 18px;
-      top: 10px;
-      width: 36px;
-      height: 30px;
+      left: 16px;
+      top: 9px;
+      width: 34px;
+      height: 28px;
       background: #9b59b6;
-      border-radius: 50% 50% 45% 45%;
-      z-index: 4;
+      border-radius: 50% 50% 40% 40%;
     }
     .flower::before {
       content: '';
       position: absolute;
-      right: -16px;
-      top: 4px;
-      width: 20px;
-      height: 20px;
+      right: -14px;
+      top: 3px;
+      width: 18px;
+      height: 18px;
       background: #9b59b6;
       border-radius: 50%;
     }
 
-    /* 底座 */
     .stand {
       position: absolute;
       left: 50%;
-      bottom: -16px;
+      bottom: -14px;
       transform: translateX(-50%);
-      width: 95px;
+      width: 100px;
       height: 12px;
       background: rgba(255,255,255,0.35);
       border-radius: 6px;
@@ -290,19 +285,21 @@
 </head>
 <body>
   <div class="patrick" title="派大星">
-    <div class="point top"></div>
-    <div class="point upper-left"></div>
-    <div class="point upper-right"></div>
-    <div class="point lower-left"></div>
-    <div class="point lower-right"></div>
-    <div class="body"></div>
-    <div class="brow left"></div>
-    <div class="brow right"></div>
-    <div class="eyes">
-      <div class="eye"></div>
-      <div class="eye"></div>
+    <div class="arm top"></div>
+    <div class="arm upper-left"></div>
+    <div class="arm upper-right"></div>
+    <div class="arm lower-left"></div>
+    <div class="arm lower-right"></div>
+    <div class="core"></div>
+    <div class="face">
+      <div class="brow left"></div>
+      <div class="brow right"></div>
+      <div class="eyes">
+        <div class="eye"></div>
+        <div class="eye"></div>
+      </div>
+      <div class="mouth"></div>
     </div>
-    <div class="mouth"></div>
     <div class="belly"></div>
     <div class="pants">
       <div class="flower"></div>
