@@ -3,25 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>YZF.IM</title>
+  <title>YZF.IM · 奶龙导航</title>
   <meta name="description" content="YZF 的个人导航页">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>Y</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐉</text></svg>">
   <style>
     :root {
-      --bg: #0c0c0c;
-      --card: #161616;
-      --card-hover: #1f1f1f;
-      --text: #f0f0f0;
-      --muted: #8a8a8a;
-      --accent: #3b82f6;
-      --border: #262626;
+      --bg: #0f0f12;
+      --card: #1a1a1f;
+      --card-hover: #24242b;
+      --text: #f2f2f2;
+      --muted: #8b8b95;
+      --accent: #facc15;
+      --border: #2a2a32;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
@@ -34,6 +30,7 @@
       justify-content: center;
       padding: 2rem 1.25rem;
       line-height: 1.5;
+      overflow-x: hidden;
     }
 
     .container {
@@ -41,31 +38,152 @@
       max-width: 420px;
     }
 
-    .profile {
-      text-align: center;
-      margin-bottom: 2.5rem;
+    /* 奶龙动画区域 */
+    .nailong-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 2rem;
+      position: relative;
     }
 
-    .avatar {
-      width: 88px;
-      height: 88px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2rem;
-      font-weight: 600;
-      color: white;
-      margin: 0 auto 1.25rem;
-      letter-spacing: -0.02em;
+    .nailong {
+      width: 160px;
+      height: 180px;
+      position: relative;
+      animation: bounce 2.2s ease-in-out infinite;
     }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    /* 身体 */
+    .body {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 110px;
+      height: 100px;
+      background: #facc15;
+      border-radius: 50% 50% 45% 45%;
+      box-shadow: inset -8px -10px 0 rgba(0,0,0,0.08);
+    }
+
+    /* 肚子 */
+    .belly {
+      position: absolute;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 70px;
+      height: 55px;
+      background: #fef9c3;
+      border-radius: 50%;
+    }
+
+    /* 头 */
+    .head {
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 95px;
+      height: 85px;
+      background: #facc15;
+      border-radius: 50%;
+      box-shadow: inset -6px -6px 0 rgba(0,0,0,0.07);
+      z-index: 2;
+    }
+
+    /* 眼睛 */
+    .eye {
+      position: absolute;
+      top: 32px;
+      width: 22px;
+      height: 26px;
+      background: #166534;
+      border-radius: 50%;
+      z-index: 3;
+    }
+    .eye.left { left: 22px; }
+    .eye.right { right: 22px; }
+
+    .eye::after {
+      content: '';
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      width: 8px;
+      height: 8px;
+      background: white;
+      border-radius: 50%;
+    }
+
+    /* 嘴巴 */
+    .mouth {
+      position: absolute;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 28px;
+      height: 14px;
+      border: 3px solid #166534;
+      border-top: none;
+      border-radius: 0 0 20px 20px;
+      z-index: 3;
+    }
+
+    /* 手臂 */
+    .arm {
+      position: absolute;
+      bottom: 55px;
+      width: 28px;
+      height: 18px;
+      background: #facc15;
+      border-radius: 20px;
+      z-index: 1;
+    }
+    .arm.left {
+      left: 8px;
+      transform: rotate(-25deg);
+      animation: wave-left 2.2s ease-in-out infinite;
+    }
+    .arm.right {
+      right: 8px;
+      transform: rotate(25deg);
+      animation: wave-right 2.2s ease-in-out infinite;
+    }
+
+    @keyframes wave-left {
+      0%, 100% { transform: rotate(-25deg); }
+      50% { transform: rotate(-45deg); }
+    }
+    @keyframes wave-right {
+      0%, 100% { transform: rotate(25deg); }
+      50% { transform: rotate(45deg); }
+    }
+
+    /* 脚 */
+    .foot {
+      position: absolute;
+      bottom: 8px;
+      width: 28px;
+      height: 16px;
+      background: #eab308;
+      border-radius: 40% 40% 50% 50%;
+    }
+    .foot.left { left: 38px; }
+    .foot.right { right: 38px; }
 
     .name {
-      font-size: 1.5rem;
-      font-weight: 600;
+      font-size: 1.55rem;
+      font-weight: 650;
       letter-spacing: -0.02em;
-      margin-bottom: 0.35rem;
+      margin-top: 0.8rem;
+      margin-bottom: 0.25rem;
     }
 
     .bio {
@@ -86,7 +204,7 @@
       padding: 0.95rem 1.15rem;
       background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 14px;
       color: var(--text);
       text-decoration: none;
       font-size: 0.95rem;
@@ -96,8 +214,8 @@
 
     .link:hover {
       background: var(--card-hover);
-      border-color: #333;
-      transform: translateY(-1px);
+      border-color: #3a3a45;
+      transform: translateY(-2px);
     }
 
     .link .icon {
@@ -117,7 +235,7 @@
     }
 
     .footer {
-      margin-top: 3rem;
+      margin-top: 2.8rem;
       text-align: center;
       color: var(--muted);
       font-size: 0.8rem;
@@ -135,10 +253,22 @@
 </head>
 <body>
   <div class="container">
-    <div class="profile">
-      <div class="avatar">Y</div>
+    <div class="nailong-area">
+      <div class="nailong">
+        <div class="head">
+          <div class="eye left"></div>
+          <div class="eye right"></div>
+          <div class="mouth"></div>
+        </div>
+        <div class="arm left"></div>
+        <div class="arm right"></div>
+        <div class="body"></div>
+        <div class="belly"></div>
+        <div class="foot left"></div>
+        <div class="foot right"></div>
+      </div>
       <h1 class="name">YZF</h1>
-      <p class="bio">个人导航页</p>
+      <p class="bio">我是奶龙 · 个人导航页</p>
     </div>
 
     <div class="links">
