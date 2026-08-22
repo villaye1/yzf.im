@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YZF.IM — Blog</title>
+  <meta name="description" content="Personal blog of YZF">
+  <style>
+    :root {
+      --bg: #0f0f0f;
+      --fg: #e8e8e8;
+      --muted: #888;
+      --accent: #3b82f6;
+      --card: #1a1a1a;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.7;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      padding: 2rem 1.5rem;
+      border-bottom: 1px solid #222;
+      text-align: center;
+    }
+    header h1 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+    header h1 a { color: inherit; text-decoration: none; }
+    header p { color: var(--muted); margin-top: 0.35rem; font-size: 0.95rem; }
+    main {
+      flex: 1;
+      max-width: 680px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+    }
+    .intro {
+      margin-bottom: 3rem;
+    }
+    .intro h2 {
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+    }
+    .intro p { color: var(--muted); }
+    .posts { list-style: none; }
+    .posts li {
+      padding: 1.25rem 0;
+      border-bottom: 1px solid #222;
+    }
+    .posts li:last-child { border-bottom: none; }
+    .posts a {
+      color: var(--fg);
+      text-decoration: none;
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+    .posts a:hover { color: var(--accent); }
+    .posts time {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 0.25rem;
+    }
+    footer {
+      text-align: center;
+      padding: 2rem 1.5rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+      border-top: 1px solid #222;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1><a href="/">YZF.IM</a></h1>
+    <p>Personal Blog</p>
+  </header>
+  <main>
+    <section class="intro">
+      <h2>欢迎</h2>
+      <p>这是一个基于 GitHub Pages 的个人博客站点，域名 yzf.im。后续可在此发布文章与笔记。</p>
+    </section>
+    <section>
+      <h2 style="font-size:1.1rem;margin-bottom:1rem;color:var(--muted);">最新文章</h2>
+      <ul class="posts">
+        <li>
+          <a href="#">Hello World</a>
+          <time datetime="2026-08-22">2026-08-22</time>
+        </li>
+      </ul>
+    </section>
+  </main>
+  <footer>
+    &copy; 2026 YZF.IM · Powered by GitHub Pages
+  </footer>
+</body>
+</html>
