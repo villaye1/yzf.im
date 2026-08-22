@@ -6,7 +6,14 @@
   <title>villaye</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #05051a; overflow: hidden; font-family: 'Courier New', monospace; }
+    body {
+      background: #87CEEB;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
     canvas { display: block; }
   </style>
 </head>
@@ -24,11 +31,10 @@
     import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x04041a);
-    scene.fog = new THREE.FogExp2(0x04041a, 0.009);
+    scene.background = new THREE.Color(0x87CEEB);
 
-    const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 300);
-    camera.position.set(18, 28, 32);
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.set(0, 3.5, 12);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -38,121 +44,30 @@
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
-    controls.dampingFactor = 0.06;
-    controls.target.set(0, 22, 0);
-    controls.minDistance = 12;
-    controls.maxDistance = 80;
-    controls.maxPolarAngle = Math.PI * 0.48;
+    controls.dampingFactor = 0.08;
+    controls.target.set(0, 2.8, 0);
+    controls.minDistance = 6;
+    controls.maxDistance = 20;
+    controls.enablePan = false;
 
-    scene.add(new THREE.AmbientLight(0x223355, 0.5));
-    const moon = new THREE.DirectionalLight(0xaaccff, 0.35);
-    moon.position.set(-15, 40, 10);
-    scene.add(moon);
+    // Soft lighting
+    scene.add(new THREE.AmbientLight(0xffffff, 0.7));
+    const dir = new THREE.DirectionalLight(0xffffff, 0.8);
+    dir.position.set(5, 10, 8);
+    dir.castShadow = true;
+    scene.add(dir);
 
-    // Stars
-    const starGeo = new THREE.BufferGeometry();
-    const starPos = new Float32Array(1200 * 3);
-    for (let i = 0; i < 1200 * 3; i++) starPos[i] = (Math.random() - 0.5) * 250;
-    starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
-    scene.add(new THREE.Points(starGeo, new THREE.PointsMaterial({ color: 0xffffff, size: 0.2 })));
-
-    // Ground
+    // Simple ground plane
     const ground = new THREE.Mesh(
-      new THREE.BoxGeometry(120, 1, 120),
-      new THREE.MeshLambertMaterial({ color: 0x12121c })
+      new THREE.CircleGeometry(8, 48),
+      new THREE.MeshLambertMaterial({ color: 0x7CB342 })
     );
-    ground.position.y = -0.5;
+    ground.rotation.x = -Math.PI / 2;
+    ground.position.y = 0;
     ground.receiveShadow = true;
     scene.add(ground);
 
-    function box(x, y, z, w, h, d, color) {
-      const m = new THREE.Mesh(
-        new THREE.BoxGeometry(w, h, d),
-        new THREE.MeshLambertMaterial({ color })
-      );
-      m.position.set(x, y, z);
-      m.castShadow = true;
-      m.receiveShadow = true;
-      return m;
-    }
-
-    // ===== More realistic skyscrapers =====
-    const buildings = new THREE.Group();
-    const baseColors = [0x1a1a28, 0x1e1e2e, 0x222233, 0x181825, 0x252538];
-    const winColors = [0xfff2a0, 0xa0d8ff, 0xffb07a, 0xd0a0ff, 0xa0ffc8, 0xffffff];
-
-    function addWindows(group, bx, bz, width, depth, floors, floorH) {
-      for (let f = 0; f < floors; f++) {
-        const wy = 0.6 + f * floorH;
-        // front & back
-        for (let sx = -width/2 + 0.4; sx < width/2; sx += 0.7) {
-          if (Math.random() > 0.28) {
-            group.add(box(bx + sx, wy, bz + depth/2 + 0.04, 0.32, 0.4, 0.06, winColors[Math.floor(Math.random()*winColors.length)]));
-            group.add(box(bx + sx, wy, bz - depth/2 - 0.04, 0.32, 0.4, 0.06, winColors[Math.floor(Math.random()*winColors.length)]));
-          }
-        }
-        // left & right
-        for (let sz = -depth/2 + 0.4; sz < depth/2; sz += 0.7) {
-          if (Math.random() > 0.28) {
-            group.add(box(bx + width/2 + 0.04, wy, bz + sz, 0.06, 0.4, 0.32, winColors[Math.floor(Math.random()*winColors.length)]));
-            group.add(box(bx - width/2 - 0.04, wy, bz + sz, 0.06, 0.4, 0.32, winColors[Math.floor(Math.random()*winColors.length)]));
-          }
-        }
-      }
-    }
-
-    function makeSkyscraper(x, z, floors, w, d, hasSpire = false) {
-      const floorH = 1.35;
-      const h = floors * floorH;
-      const color = baseColors[Math.floor(Math.random() * baseColors.length)];
-      const main = box(x, h/2, z, w, h, d, color);
-      buildings.add(main);
-      addWindows(buildings, x, z, w, d, floors, floorH);
-
-      // Setback top section for realism
-      if (floors > 10) {
-        const topFloors = Math.floor(floors * 0.25);
-        const topH = topFloors * floorH;
-        const topW = w * 0.7;
-        const topD = d * 0.7;
-        buildings.add(box(x, h + topH/2, z, topW, topH, topD, color));
-        addWindows(buildings, x, z, topW, topD, topFloors, floorH);
-        if (hasSpire) {
-          // Antenna / spire
-          buildings.add(box(x, h + topH + 1.5, z, 0.25, 3, 0.25, 0x888899));
-          const light = new THREE.PointLight(0xff4444, 0.8, 12);
-          light.position.set(x, h + topH + 3.2, z);
-          scene.add(light);
-        }
-        return h + topH;
-      }
-      return h;
-    }
-
-    // Dense city
-    for (let i = -5; i <= 5; i++) {
-      for (let j = -5; j <= 5; j++) {
-        if (Math.abs(i) < 1 && Math.abs(j) < 1) continue; // leave center for main tower
-        if (Math.random() > 0.3) {
-          const floors = 6 + Math.floor(Math.random() * 16);
-          const ww = 2.2 + Math.random() * 2.5;
-          const dd = 2.0 + Math.random() * 2.2;
-          makeSkyscraper(i * 5.5 + (Math.random()-0.5)*1.5, j * 5.5 + (Math.random()-0.5)*1.5, floors, ww, dd, Math.random() > 0.7);
-        }
-      }
-    }
-
-    // Main tall tower (Patrick stands on this one)
-    const mainTowerH = makeSkyscraper(0, 0, 26, 4.2, 4.0, true);
-    // Extra mid-height towers around
-    makeSkyscraper(-8, -6, 20, 3.2, 3.0, true);
-    makeSkyscraper(9, -5, 18, 3.5, 3.2, false);
-    makeSkyscraper(-7, 8, 15, 2.8, 3.0, true);
-    makeSkyscraper(8, 7, 22, 3.0, 2.8, true);
-
-    scene.add(buildings);
-
-    // ===== Patrick on top of the main skyscraper =====
+    // ===== Patrick Star =====
     const patrick = new THREE.Group();
     const pinkMat = new THREE.MeshLambertMaterial({ color: 0xFF8FAB });
     const darkPinkMat = new THREE.MeshLambertMaterial({ color: 0xE86A8A });
@@ -161,123 +76,134 @@
     const blackMat = new THREE.MeshLambertMaterial({ color: 0x222222 });
     const purpleMat = new THREE.MeshLambertMaterial({ color: 0x9B59B6 });
 
-    const body = new THREE.Mesh(new THREE.SphereGeometry(1.5, 24, 24), pinkMat);
-    body.scale.set(1.15, 1.35, 1.0);
-    body.position.y = 2.3;
+    // Body
+    const body = new THREE.Mesh(new THREE.SphereGeometry(1.55, 28, 28), pinkMat);
+    body.scale.set(1.15, 1.35, 1.05);
+    body.position.y = 2.35;
     body.castShadow = true;
     patrick.add(body);
 
-    const head = new THREE.Mesh(new THREE.SphereGeometry(1.2, 24, 24), pinkMat);
-    head.position.y = 4.3;
+    // Head
+    const head = new THREE.Mesh(new THREE.SphereGeometry(1.25, 28, 28), pinkMat);
+    head.position.y = 4.4;
     head.castShadow = true;
     patrick.add(head);
 
-    // Eyes looking slightly up
-    const eyeL = new THREE.Mesh(new THREE.SphereGeometry(0.3, 16, 16), whiteMat);
-    eyeL.position.set(-0.38, 4.5, 0.95);
+    // Eyes
+    const eyeL = new THREE.Mesh(new THREE.SphereGeometry(0.32, 16, 16), whiteMat);
+    eyeL.position.set(-0.4, 4.55, 1.0);
     patrick.add(eyeL);
-    const eyeR = new THREE.Mesh(new THREE.SphereGeometry(0.3, 16, 16), whiteMat);
-    eyeR.position.set(0.38, 4.5, 0.95);
+    const eyeR = new THREE.Mesh(new THREE.SphereGeometry(0.32, 16, 16), whiteMat);
+    eyeR.position.set(0.4, 4.55, 1.0);
     patrick.add(eyeR);
-    const pupilL = new THREE.Mesh(new THREE.SphereGeometry(0.15, 12, 12), blackMat);
-    pupilL.position.set(-0.38, 4.55, 1.15);
+
+    const pupilL = new THREE.Mesh(new THREE.SphereGeometry(0.16, 12, 12), blackMat);
+    pupilL.position.set(-0.4, 4.55, 1.22);
     patrick.add(pupilL);
-    const pupilR = new THREE.Mesh(new THREE.SphereGeometry(0.15, 12, 12), blackMat);
-    pupilR.position.set(0.38, 4.55, 1.15);
+    const pupilR = new THREE.Mesh(new THREE.SphereGeometry(0.16, 12, 12), blackMat);
+    pupilR.position.set(0.4, 4.55, 1.22);
     patrick.add(pupilR);
 
-    const browL = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.07, 0.07), blackMat);
-    browL.position.set(-0.38, 4.9, 1.0);
+    // Eyebrows
+    const browL = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.08, 0.08), blackMat);
+    browL.position.set(-0.4, 5.0, 1.05);
     browL.rotation.z = 0.15;
     patrick.add(browL);
-    const browR = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.07, 0.07), blackMat);
-    browR.position.set(0.38, 4.9, 1.0);
+    const browR = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.08, 0.08), blackMat);
+    browR.position.set(0.4, 5.0, 1.05);
     browR.rotation.z = -0.15;
     patrick.add(browR);
 
-    const mouth = new THREE.Mesh(new THREE.TorusGeometry(0.25, 0.055, 8, 16, Math.PI), blackMat);
-    mouth.position.set(0, 4.0, 1.0);
+    // Smile
+    const mouth = new THREE.Mesh(
+      new THREE.TorusGeometry(0.28, 0.06, 8, 20, Math.PI),
+      blackMat
+    );
+    mouth.position.set(0, 4.1, 1.05);
     mouth.rotation.x = Math.PI;
     patrick.add(mouth);
 
-    // Arms fully open
-    const armGeo = new THREE.CylinderGeometry(0.26, 0.3, 2.1, 12);
+    // Left arm (waving)
+    const armGeo = new THREE.CylinderGeometry(0.27, 0.32, 2.0, 12);
     const armL = new THREE.Mesh(armGeo, pinkMat);
-    armL.position.set(-2.3, 2.9, 0);
-    armL.rotation.z = Math.PI / 2;
+    armL.position.set(-1.9, 3.2, 0.2);
+    armL.rotation.z = Math.PI / 2.2;
+    armL.rotation.y = 0.3;
     armL.castShadow = true;
     patrick.add(armL);
+
+    // Right arm (down / natural)
     const armR = new THREE.Mesh(armGeo, pinkMat);
-    armR.position.set(2.3, 2.9, 0);
-    armR.rotation.z = -Math.PI / 2;
+    armR.position.set(1.7, 2.6, 0);
+    armR.rotation.z = -Math.PI / 3.5;
     armR.castShadow = true;
     patrick.add(armR);
 
-    const handL = new THREE.Mesh(new THREE.SphereGeometry(0.36, 12, 12), pinkMat);
-    handL.position.set(-3.4, 2.9, 0);
+    // Hands
+    const handL = new THREE.Mesh(new THREE.SphereGeometry(0.38, 12, 12), pinkMat);
+    handL.position.set(-2.9, 3.5, 0.4);
     patrick.add(handL);
-    const handR = new THREE.Mesh(new THREE.SphereGeometry(0.36, 12, 12), pinkMat);
-    handR.position.set(3.4, 2.9, 0);
+    const handR = new THREE.Mesh(new THREE.SphereGeometry(0.38, 12, 12), pinkMat);
+    handR.position.set(2.5, 2.0, 0);
     patrick.add(handR);
 
-    const legGeo = new THREE.CylinderGeometry(0.32, 0.38, 1.3, 12);
+    // Legs
+    const legGeo = new THREE.CylinderGeometry(0.34, 0.4, 1.35, 12);
     const legL = new THREE.Mesh(legGeo, pinkMat);
-    legL.position.set(-0.5, 0.65, 0);
+    legL.position.set(-0.55, 0.7, 0);
     legL.castShadow = true;
     patrick.add(legL);
     const legR = new THREE.Mesh(legGeo, pinkMat);
-    legR.position.set(0.5, 0.65, 0);
+    legR.position.set(0.55, 0.7, 0);
     legR.castShadow = true;
     patrick.add(legR);
 
-    const footL = new THREE.Mesh(new THREE.SphereGeometry(0.38, 12, 12), pinkMat);
-    footL.scale.set(1, 0.55, 1.25);
-    footL.position.set(-0.5, 0.12, 0.12);
+    // Feet
+    const footL = new THREE.Mesh(new THREE.SphereGeometry(0.4, 12, 12), pinkMat);
+    footL.scale.set(1, 0.55, 1.3);
+    footL.position.set(-0.55, 0.12, 0.15);
     patrick.add(footL);
-    const footR = new THREE.Mesh(new THREE.SphereGeometry(0.38, 12, 12), pinkMat);
-    footR.scale.set(1, 0.55, 1.25);
-    footR.position.set(0.5, 0.12, 0.12);
+    const footR = new THREE.Mesh(new THREE.SphereGeometry(0.4, 12, 12), pinkMat);
+    footR.scale.set(1, 0.55, 1.3);
+    footR.position.set(0.55, 0.12, 0.15);
     patrick.add(footR);
 
-    const pants = new THREE.Mesh(new THREE.CylinderGeometry(1.4, 1.45, 1.0, 20), greenMat);
-    pants.position.y = 1.6;
+    // Green pants
+    const pants = new THREE.Mesh(new THREE.CylinderGeometry(1.45, 1.5, 1.05, 24), greenMat);
+    pants.position.y = 1.65;
     pants.castShadow = true;
     patrick.add(pants);
 
-    const spot1 = new THREE.Mesh(new THREE.SphereGeometry(0.26, 10, 10), purpleMat);
-    spot1.position.set(-0.65, 1.6, 1.25);
+    // Purple spots
+    const spot1 = new THREE.Mesh(new THREE.SphereGeometry(0.28, 10, 10), purpleMat);
+    spot1.position.set(-0.7, 1.65, 1.3);
     patrick.add(spot1);
-    const spot2 = new THREE.Mesh(new THREE.SphereGeometry(0.2, 10, 10), purpleMat);
-    spot2.position.set(0.55, 1.45, 1.3);
+    const spot2 = new THREE.Mesh(new THREE.SphereGeometry(0.22, 10, 10), purpleMat);
+    spot2.position.set(0.6, 1.5, 1.35);
     patrick.add(spot2);
 
-    const belly = new THREE.Mesh(new THREE.SphereGeometry(0.11, 8, 8), darkPinkMat);
-    belly.position.set(0, 2.4, 1.45);
+    // Belly button
+    const belly = new THREE.Mesh(new THREE.SphereGeometry(0.12, 8, 8), darkPinkMat);
+    belly.position.set(0, 2.45, 1.5);
     patrick.add(belly);
 
-    // Place Patrick on the roof of the main tower
-    const roofY = mainTowerH + 0.2;
-    patrick.position.set(0, roofY, 0);
-    patrick.rotation.x = -0.08;
     scene.add(patrick);
 
-    // Roof platform under Patrick
-    buildings.add(box(0, mainTowerH + 0.1, 0, 5.5, 0.25, 5.2, 0x2a2a3a));
-
-    // Soft city lights
-    for (let i = 0; i < 12; i++) {
-      const pl = new THREE.PointLight(0xffaa66, 0.5, 30);
-      pl.position.set((Math.random()-0.5)*40, 6 + Math.random()*20, (Math.random()-0.5)*40);
-      scene.add(pl);
-    }
-
+    // Wave animation
     let t = 0;
     function animate() {
       requestAnimationFrame(animate);
-      t += 0.012;
-      patrick.position.y = roofY + Math.sin(t) * 0.05;
-      armL.rotation.y = Math.sin(t * 0.6) * 0.06;
-      armR.rotation.y = Math.sin(t * 0.6 + 1) * 0.06;
+      t += 0.04;
+
+      // Waving left arm
+      armL.rotation.z = Math.PI / 2.2 + Math.sin(t) * 0.45;
+      armL.rotation.x = Math.sin(t * 0.8) * 0.15;
+      handL.position.y = 3.5 + Math.sin(t) * 0.35;
+      handL.position.x = -2.9 + Math.cos(t) * 0.15;
+
+      // Gentle body bob
+      patrick.position.y = Math.sin(t * 0.5) * 0.06;
+
       controls.update();
       renderer.render(scene, camera);
     }
