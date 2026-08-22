@@ -1,0 +1,1 @@
+const phrases=["今天也要闪闪发亮。","没有脑子，也要有快乐。","一起去晒晒太阳吧！","我只是在努力可爱。"];let index=0;document.querySelector("#mood-button").addEventListener("click",()=>{index=(index+1)%phrases.length;document.querySelector("#speech").textContent=`“${phrases[index]}”`});
