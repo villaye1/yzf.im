@@ -15,7 +15,6 @@
       overflow: hidden;
     }
 
-    /* 真正的海星形状派大星 */
     .patrick {
       position: relative;
       width: 280px;
@@ -28,20 +27,20 @@
       50% { transform: translateY(-16px); }
     }
 
-    /* 海星中心 */
+    /* 中心核心 - 加大并确保完全填满中间 */
     .core {
       position: absolute;
       left: 50%;
-      top: 100px;
+      top: 85px;
       transform: translateX(-50%);
-      width: 120px;
-      height: 130px;
+      width: 145px;
+      height: 155px;
       background: #f9a8b8;
       border-radius: 50%;
       z-index: 2;
     }
 
-    /* 五个尖角 - 海星形状 */
+    /* 五个尖角 - 根部加粗，深入中心，消除空隙 */
     .arm {
       position: absolute;
       background: #f9a8b8;
@@ -53,70 +52,70 @@
       left: 50%;
       top: 0;
       transform: translateX(-50%);
-      width: 46px;
-      height: 125px;
-      border-radius: 23px 23px 8px 8px;
+      width: 52px;
+      height: 130px;
+      border-radius: 26px 26px 10px 10px;
       z-index: 3;
     }
 
-    /* 左上尖角 */
+    /* 左上尖角 - 根部更宽，更深入中心 */
     .arm.upper-left {
-      left: 5px;
-      top: 55px;
-      width: 50px;
-      height: 120px;
-      border-radius: 25px;
-      transform: rotate(-48deg);
-      transform-origin: 85% 10%;
+      left: -5px;
+      top: 50px;
+      width: 70px;
+      height: 130px;
+      border-radius: 35px;
+      transform: rotate(-45deg);
+      transform-origin: 90% 15%;
     }
     .arm.upper-left::after {
       content: '';
       position: absolute;
-      bottom: -8px;
-      left: 7px;
-      width: 36px;
-      height: 32px;
+      bottom: -6px;
+      left: 12px;
+      width: 40px;
+      height: 34px;
       background: #f9a8b8;
       border-radius: 50%;
     }
 
     /* 右上尖角 */
     .arm.upper-right {
-      right: 5px;
-      top: 55px;
-      width: 50px;
-      height: 120px;
-      border-radius: 25px;
-      transform: rotate(48deg);
-      transform-origin: 15% 10%;
+      right: -5px;
+      top: 50px;
+      width: 70px;
+      height: 130px;
+      border-radius: 35px;
+      transform: rotate(45deg);
+      transform-origin: 10% 15%;
     }
     .arm.upper-right::after {
       content: '';
       position: absolute;
-      bottom: -8px;
-      right: 7px;
-      width: 36px;
-      height: 32px;
+      bottom: -6px;
+      right: 12px;
+      width: 40px;
+      height: 34px;
       background: #f9a8b8;
       border-radius: 50%;
     }
 
     /* 左下尖角 */
     .arm.lower-left {
-      left: 42px;
-      bottom: 5px;
-      width: 44px;
-      height: 110px;
-      border-radius: 22px 22px 20px 20px;
-      transform: rotate(22deg);
+      left: 30px;
+      bottom: 0;
+      width: 58px;
+      height: 120px;
+      border-radius: 28px 28px 22px 22px;
+      transform: rotate(20deg);
     }
     .arm.lower-left::after {
       content: '';
       position: absolute;
-      bottom: -10px;
+      bottom: -8px;
       left: 50%;
       transform: translateX(-50%);
-      width: 34px;
+      width: 36px;
       height: 18px;
       background: #f9a8b8;
       border-radius: 50%;
@@ -124,20 +123,20 @@
 
     /* 右下尖角 */
     .arm.lower-right {
-      right: 42px;
-      bottom: 5px;
-      width: 44px;
-      height: 110px;
-      border-radius: 22px 22px 20px 20px;
-      transform: rotate(-22deg);
+      right: 30px;
+      bottom: 0;
+      width: 58px;
+      height: 120px;
+      border-radius: 28px 28px 22px 22px;
+      transform: rotate(-20deg);
     }
     .arm.lower-right::after {
       content: '';
       position: absolute;
-      bottom: -10px;
+      bottom: -8px;
       left: 50%;
       transform: translateX(-50%);
-      width: 34px;
+      width: 36px;
       height: 18px;
       background: #f9a8b8;
       border-radius: 50%;
@@ -225,7 +224,6 @@
       border-radius: 0 0 4px 4px;
     }
 
-    /* 肚脐 */
     .belly {
       position: absolute;
       left: 50%;
@@ -238,22 +236,21 @@
       z-index: 4;
     }
 
-    /* 短裤 */
     .pants {
       position: absolute;
       left: 50%;
       top: 245px;
       transform: translateX(-50%);
-      width: 115px;
-      height: 50px;
+      width: 120px;
+      height: 52px;
       background: #b8e05a;
       border-radius: 6px 6px 16px 16px;
       z-index: 3;
     }
     .flower {
       position: absolute;
-      left: 16px;
-      top: 9px;
+      left: 18px;
+      top: 10px;
       width: 34px;
       height: 28px;
       background: #9b59b6;
